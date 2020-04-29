@@ -1,13 +1,12 @@
 package controllers
 
 import (
-	// "fmt"
+	"fmt"
 	"net/http"
 	"io/ioutil"
 	"log"
 	"strings"
-	// "os"
-	// "bufio"
+	"os"
 	"github.com/russross/blackfriday"
 	"github.com/SebastiaanKlippert/go-wkhtmltopdf"
 	"github.com/labstack/echo"
@@ -15,6 +14,8 @@ import (
 
 func GetPdf() echo.HandlerFunc {
 	return func(c echo.Context) error {
+		// url := c.FormValue("url")
+
 		url := "https://qiita.com/cotton_alta_/items/6e2ca3d429c20a05d814.md"
 
 		top_html := `
@@ -52,7 +53,21 @@ func GetPdf() echo.HandlerFunc {
 	
 		htmlConvert(modified_html)
 	
-		return c.String(http.StatusOK, "OK")
+		file, err := os.Open("test.pdf")
+		checkErr(err, "file open failed")
+		defer file.Close()
+
+		fileInfo, err := file.Stat()
+    checkErr(err, "fileInfo get failed")
+
+    size := fileInfo.Size()
+    buffer := make([]byte, size)
+
+    file.Read(buffer)
+
+    fmt.Printf("%T", buffer)
+
+		return c.Blob(http.StatusOK, "application/pdf", buffer)
 	}
 }
 
