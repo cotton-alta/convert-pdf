@@ -7,7 +7,7 @@ import (
 	"log"
 	"strings"
 	"os"
-	"github.com/russross/blackfriday"
+	"github.com/russross/blackfriday/v2"
 	"github.com/SebastiaanKlippert/go-wkhtmltopdf"
 	"github.com/labstack/echo"
 )
@@ -23,13 +23,12 @@ func GetPdf() echo.HandlerFunc {
 			<head>
 					<meta charset="UTF-8">
 					<style>
-						p {
-							display: inline-block;
-							font-size: 25px;
-							line-height: 40px;
-						}
 						img {
 							width: 90%;
+						}
+						pre {
+							background: #364549;
+							color: #FFFFFF;
 						}
 					</style>
 			</head>
@@ -47,12 +46,13 @@ func GetPdf() echo.HandlerFunc {
 		data, err := ioutil.ReadAll(res.Body)
 		checkErr(err, "get read failed")
 	
-		html := blackfriday.MarkdownBasic(data)
+		html := blackfriday.Run(data)
 	
 		modified_html := top_html + string(html) + bottom_html
 	
+		fmt.Printf("%v", modified_html)
 		htmlConvert(modified_html)
-	
+
 		file, err := os.Open("test.pdf")
 		checkErr(err, "file open failed")
 		defer file.Close()
@@ -75,7 +75,7 @@ func htmlConvert(item string) {
 	
 	pdf, err := wkhtmltopdf.NewPDFGenerator()
 	checkErr(err, "generate failed")
-	
+	pdf.PageSize.Set("B5")
 	pdf.AddPage(wkhtmltopdf.NewPageReader(strings.NewReader(item)))
 	
 	err = pdf.Create()
