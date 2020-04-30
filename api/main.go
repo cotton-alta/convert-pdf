@@ -12,7 +12,7 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	e.GET("/api", controllers.GetPdf())
+	e.POST("/api", controllers.GetPdf())
 
 	e.Start(":3001")
 }

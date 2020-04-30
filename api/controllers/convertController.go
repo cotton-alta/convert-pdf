@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"io/ioutil"
 	"log"
@@ -14,9 +13,7 @@ import (
 
 func GetPdf() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		// url := c.FormValue("url")
-
-		url := "https://qiita.com/cotton_alta_/items/6e2ca3d429c20a05d814.md"
+		url := c.FormValue("url") + ".md"
 
 		top_html := `
 			<html>
@@ -47,10 +44,13 @@ func GetPdf() echo.HandlerFunc {
 		checkErr(err, "get read failed")
 	
 		html := blackfriday.Run(data)
+
+		replace_html := strings.Replace(string(html), `<h2>slide: false</h2>`, ``, 1)
+		replace_html = strings.Replace(replace_html, `<p>`, `<h1>`, 1)
+		replace_html = strings.Replace(replace_html, `</p>`, `</h1>`, 1)
 	
-		modified_html := top_html + string(html) + bottom_html
+		modified_html := top_html + replace_html + bottom_html
 	
-		fmt.Printf("%v", modified_html)
 		htmlConvert(modified_html)
 
 		file, err := os.Open("test.pdf")
@@ -64,8 +64,6 @@ func GetPdf() echo.HandlerFunc {
     buffer := make([]byte, size)
 
     file.Read(buffer)
-
-    fmt.Printf("%T", buffer)
 
 		return c.Blob(http.StatusOK, "application/pdf", buffer)
 	}
