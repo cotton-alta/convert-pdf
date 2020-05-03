@@ -12,6 +12,9 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:400,900&display=swap'},
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Noto+Sans+JP:400,900&display=swap'},
+      { rel: 'stylesheet', href: "https://use.fontawesome.com/releases/v5.6.4/css/all.css" },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
@@ -23,6 +26,7 @@ export default {
   ** Global CSS
   */
   css: [
+    '@/assets/style/reset.css'
   ],
   /*
   ** Plugins to load before mounting the App
