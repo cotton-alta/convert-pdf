@@ -1,6 +1,9 @@
 
 export default {
   mode: 'universal',
+  server: {
+    port: 3002
+  },
   /*
   ** Headers of the page
   */
@@ -51,12 +54,12 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
  axios: {
-  baseURL: "http://localhost:3001",
+  baseURL: "http://localhost:3003",
   proxy: true
 },
 proxy: {
   '/api': {
-    target: 'http://localhost:3001'
+    target: 'http://localhost:3003'
   }
 },
   /*

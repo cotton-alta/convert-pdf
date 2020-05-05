@@ -47,7 +47,7 @@ export default Vue.extend({
               a = document.createElement("a")
 
           a.href = path
-          a.download = "test.pdf"
+          a.download = "download.pdf"
 
           document.body.appendChild(a)
           a.click()

@@ -53,8 +53,9 @@ func GetPdf() echo.HandlerFunc {
 	
 		htmlConvert(modified_html)
 
-		file, err := os.Open("test.pdf")
+		file, err := os.Open("download.pdf")
 		checkErr(err, "file open failed")
+		defer os.Remove("download.pdf")
 		defer file.Close()
 
 		fileInfo, err := file.Stat()
@@ -63,7 +64,7 @@ func GetPdf() echo.HandlerFunc {
     size := fileInfo.Size()
     buffer := make([]byte, size)
 
-    file.Read(buffer)
+		file.Read(buffer)
 
 		return c.Blob(http.StatusOK, "application/pdf", buffer)
 	}
@@ -79,7 +80,7 @@ func htmlConvert(item string) {
 	err = pdf.Create()
 	checkErr(err, "create failed")
 	
-	err = pdf.WriteFile("./test.pdf")
+	err = pdf.WriteFile("./download.pdf")
 	checkErr(err, "write failed")
 }
 
