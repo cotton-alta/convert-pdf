@@ -2,6 +2,7 @@
   <div class="container">
     <div class="title-wrapper">
       <span>Convert Qiita articles to pdf</span>
+      <p>Qiita記事pdf化ツール</p>
     </div>
     <div class="form-wrapper">
       <input type="text" v-model="url">
@@ -78,6 +79,11 @@ export default Vue.extend({
   display: inline-block;
   font-size: calc(20px + 1vw);
 }
+.title-wrapper p {
+  margin-top: 20px;
+  /* display: inline-block; */
+  font-size: calc(15px + 0.3vw);
+}
 
 .form-wrapper {
   margin: 30px 0px;
@@ -92,7 +98,7 @@ export default Vue.extend({
 
 input {
   width: 100%;
-  margin-top: 100px;
+  margin-top: 80px;
   height: 2.5rem;
   font-size: calc(15px + 0.6vw);
   border: 2px solid #7c7c7c;

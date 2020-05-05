@@ -74,7 +74,7 @@ func htmlConvert(item string) {
 	
 	pdf, err := wkhtmltopdf.NewPDFGenerator()
 	checkErr(err, "generate failed")
-	pdf.PageSize.Set("B5")
+	pdf.PageSize.Set("B6")
 	pdf.AddPage(wkhtmltopdf.NewPageReader(strings.NewReader(item)))
 	
 	err = pdf.Create()
